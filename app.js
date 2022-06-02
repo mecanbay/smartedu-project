@@ -1,23 +1,15 @@
 const express = require("express");
+const pageRouter = require("./routes/pageRouter");
 const app = express();
-
+const pageController = require("./controllers/pageController");
 // TEMPLATE ENGINE
 app.set("view engine", "ejs");
 
 //MIDDLEWARES
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.status(200).render("index", {
-    page_name: "index",
-  });
-});
-
-app.get("/about", (req, res) => {
-  res.status(200).render("about", {
-    page_name : "about"
-  });
-});
+// ROUTES
+app.use("/", pageRouter);
 
 const port = 3000;
 app.listen(port, () => {

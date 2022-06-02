@@ -1,0 +1,22 @@
+{
+  "name": "smart-edu-project",
+  "version": "1.0.0",
+  "description": "Patika.dev Smart EDU Project",
+  "main": "app.js",
+  "scripts": {
+    "start" : "nodemon app.js"
+  },
+  "keywords": [
+    "education",
+    "portal",
+    "nodejs"
+  ],
+  "author": "mecanbay",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

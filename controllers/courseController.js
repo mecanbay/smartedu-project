@@ -30,3 +30,24 @@ exports.viewCourses = async (req, res) => {
     });
   }
 };
+
+exports.viewCourse = async (req, res) => {
+  try {
+    const course = await Course.findOne({slug : req.params.slug});
+
+    // res.status(200).json({
+    //   status : "success",
+    //   course
+    // })
+
+    res.render("course", {
+      course,
+      page_name: "courses",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      error,
+    });
+  }
+};

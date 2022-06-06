@@ -1,15 +1,24 @@
 const express = require("express");
-const pageRouter = require("./routes/pageRouter");
+const mongoose = require("mongoose");
+const pageRoute = require("./routes/pageRoute");
+const courseRoute = require("./routes/courseRoute");
 const app = express();
-const pageController = require("./controllers/pageController");
+
+//DATABASE CONNECTION
+mongoose.connect("mongodb://127.0.0.1/smartedu_patika").then(() => {
+  console.log("MongoDB Bağlantısı Başarılı...");
+});
 // TEMPLATE ENGINE
 app.set("view engine", "ejs");
 
 //MIDDLEWARES
 app.use(express.static("public"));
+app.use(express.json())
+app.use(express.urlencoded({extended : true}))
 
 // ROUTES
-app.use("/", pageRouter);
+app.use("/", pageRoute);
+app.use("/courses", courseRoute);
 
 const port = 3000;
 app.listen(port, () => {

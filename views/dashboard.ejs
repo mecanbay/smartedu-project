@@ -112,7 +112,7 @@
 								</div><!-- end row -->
 								<div class="row mt-5">
 
-
+									<% for (let i = 0; i < courses.length; i++) {%> 
 									<div class="col-lg-6 col-md-6 col-12">
 										<div class="course-item mb-5">
 											<div class="image-blog">
@@ -120,11 +120,11 @@
 											</div>
 											<div class="course-br">
 												<div class="course-title">
-													<h2><a href="/courses/courses[i].slug" title=""> courses[i].name</a>
+													<h2><a href="/courses/<%=courses[i].slug %>" title=""> <%= courses[i].name %> </a>
 													</h2>
 												</div>
 												<div class="course-desc">
-													<p> courses[i].description </p>
+													<p> <%= courses[i].description %>   </p>
 												</div>
 												<div class="clearfix">
 													<ul style="list-style-type: none;">
@@ -142,7 +142,7 @@
 											</div>
 										</div>
 									</div><!-- end col -->
-
+									<% } %> 
 									<!-- UPDATE Modal -->
 									<div class="modal fade" id="updateCourse" tabindex="-1" role="dialog"
 										aria-labelledby="myModalLabel">

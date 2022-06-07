@@ -48,7 +48,13 @@
 						</div>
 						<div class="course-meta-bot">
 							<ul>
-								<li><i class="fa fa-user" aria-hidden="true"></i>TEST</li>
+								<li><i class="fa fa-user mr-2" aria-hidden="true">
+									<% if(courses[i].user.name !="" && courses[i].user.surname !="" ) {%>
+										<%= courses[i].user.name+" "+courses[i].user.surname %>
+									<% } else { %>
+										<%= courses[i].user.username %>
+									<% } %>    
+								</i></li>
 							</ul>
 						</div>
 					</div>

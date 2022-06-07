@@ -66,7 +66,13 @@
 
 							<div class="blog-author">
 								<div class="author-bio">
-									<h3 class="author_name"><a href="#">Muhammed Ensar Canbay</a></h3>
+									<h3 class="author_name"><a href="#">
+										<% if(course.user.name !="" && course.user.surname !="" ) {%>
+											<%= course.user.name+" "+course.user.surname %>
+										<% } else { %>
+											<%= course.user.username %>
+										<% } %>    
+									</a></h3>
 									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis ad id dolorum.
 									Blanditiis consequuntur non provident, cupiditate minus in delectus voluptas quo!
 									Temporibus, aspernatur error?

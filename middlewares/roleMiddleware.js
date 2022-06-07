@@ -1,7 +1,10 @@
+const User = require("../models/User");
+
 module.exports = (roles) => {
-    return (req, res, next) => {
-        const userRole = req.body.role;
-        if(roles.includes(userRole)){
+    
+    return async (req, res, next) => {
+        const user = await User.findById(req.session.userID)
+        if(roles.includes(user.role)){
             next();
         } else{
             return res.status(401).send("YOU CAN DO IT :D");

@@ -2,7 +2,7 @@
 
 <body class="host_version"> 
 
-	
+ 
     <!-- LOADER -->
 	<div id="preloader">
 		<div class="loader-container">
@@ -16,6 +16,7 @@
 	<!-- Start header -->
 	<%- include('partials/_navbar.ejs') %> 
 			
+	<% if(user){ %> 	
 
 				<div class="all-title-box">
 					<div class="container text-center">
@@ -365,7 +366,7 @@
 				</div>
 				</div>
 				</div>
-
+	<% } %> 			
 			
 
 

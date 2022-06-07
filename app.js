@@ -38,6 +38,7 @@ app.use(
   })
 );
 
+
 app.use("*", (req, res, next) => {
   userIn = req.session.userID;
   next();

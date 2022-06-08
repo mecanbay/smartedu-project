@@ -1,9 +1,12 @@
 const Course = require("../models/Course");
 const Category = require("../models/Category");
+const User = require("../models/User");
+const { use } = require("bcrypt/promises");
+const session = require("express-session");
 
 exports.createCourse = async (req, res) => {
   try {
-    req.body['user'] = req.session.userID
+    req.body["user"] = req.session.userID;
     const course = await Course.create(req.body);
 
     res.status(201).redirect("/courses");
@@ -28,7 +31,9 @@ exports.viewCourses = async (req, res) => {
     // if(categorySlug){
     //   const category = Category.findOne({slug : categorySlug});
     // }
-    const courses = await Course.find(filter).sort("-createdAt").populate('user');
+    const courses = await Course.find(filter)
+      .sort("-createdAt")
+      .populate("user");
     const categories = await Category.find();
 
     res.render("courses", {
@@ -46,8 +51,12 @@ exports.viewCourses = async (req, res) => {
 
 exports.viewCourse = async (req, res) => {
   try {
-    const course = await Course.findOne({ slug: req.params.slug }).populate('user');
+    const course = await Course.findOne({ slug: req.params.slug }).populate(
+      "user"
+    );
     const categories = await Category.find();
+    const user = await User.findById(req.session.userID).populate('courses');
+
 
     // res.status(200).json({
     //   status : "success",
@@ -58,9 +67,25 @@ exports.viewCourse = async (req, res) => {
       course,
       categories,
       page_name: "courses",
+      user
     });
   } catch (error) {
     res.status(500).json({
+      status: "fail",
+      error,
+    });
+  }
+};
+
+exports.enrollCourse = async (req, res) => {
+  try {
+    const course = await Course.findOne({ slug: req.params.slug });
+    const user = await User.findById(req.session.userID);
+    await user.courses.push({ _id: course._id });
+    await user.save();
+    res.status(200).redirect("/user/dashboard");
+  } catch (error) {
+    res.status(400).json({
       status: "fail",
       error,
     });

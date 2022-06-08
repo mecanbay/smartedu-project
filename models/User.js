@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
-const { hash } = require("bcrypt");
 const saltRound = 12;
 
 const UserSchema = new Schema({
@@ -40,6 +39,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  courses : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'Course'
+  }]
 });
 
 UserSchema.pre('save', function (next) {

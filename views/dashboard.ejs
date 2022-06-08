@@ -39,7 +39,13 @@
 							<div class="col-lg-12 blog-post-single">
 								<div class="blog-author">
 									<div class="author-bio">
-										<h3 class="author_name"><a href="#"> Courses Enrolled by: USERNAME</a></h3>
+										<% if(user.name !="" && user.surname !="" ) {%>
+										<h3 class="author_name"><a href="#"> Courses Enrolled by: <%= user.name+" "+user.surname %></a></h3>
+										<% } else { %>
+										<h3 class="author_name"><a href="#"> Courses Enrolled by: <%= user.username %></a></h3>
+										<% } %>
+										
+											
 
 									</div>
 								</div>
@@ -47,7 +53,7 @@
 							</div><!-- end col -->
 						</div><!-- end row -->
 						<div class="row mt-5">
-
+							<% for (let i = 0; i < user.courses.length; i++) {%> 
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="course-item mb-5">
 									<div class="image-blog">
@@ -55,10 +61,10 @@
 									</div>
 									<div class="course-br">
 										<div class="course-title">
-											<h2><a href="/courses/" title=""> NAME </a></h2>
+											<h2><a href="/courses/" title=""> <%= user.courses[i].name %>  </a></h2>
 										</div>
 										<div class="course-desc">
-											<p>AÇIKLAMA </p>
+											<p><%= user.courses[i].description %> </p>
 											<form method="POST" action="/courses/release">
 												<input type="hidden" name="course_id" value="KURS ID">
 												<button
@@ -69,7 +75,7 @@
 									</div>
 								</div>
 							</div><!-- end col -->
-
+							<% } %> 
 
 
 

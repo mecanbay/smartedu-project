@@ -39,14 +39,14 @@ exports.sendEmail = async (req, res) => {
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: "example@gmail.com", // gmail acc
+      user: "examplemail@gmail.com", // gmail acc
       pass: "examplepassword", // gmail pass
     },
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Smart EDU Contact Form 👻" <example@gmail.com>', // sender address
+    from: '"Smart EDU Contact Form 👻" <examplemail@gmail.com>', // sender address
     to: "receivers", // list of receivers
     subject: "Smart EDU Contact Form", // Subject line
     html: outputMessage, // html body
@@ -58,6 +58,8 @@ exports.sendEmail = async (req, res) => {
   // Preview only available when sending through an Ethereal account
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+  req.flash('success', 'We Received your message successfuly')
 
   res.status(200).redirect('/contact');
 }

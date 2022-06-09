@@ -16,6 +16,17 @@
 	<!-- Start header -->
 	<%- include('partials/_navbar.ejs') %> 
 	<!-- End header -->
+
+    <% if(flashMessages.success) {%>
+        <div class="alert alert-success">
+            <%= flashMessages.success %> 
+        </div>
+    <% } else if (flashMessages.fail) {%>
+        <div class="alert alert-danger">
+            <%= flashMessages.fail %> 
+        </div>
+           
+    <% } %>   
 	
 	<div id="carouselExampleControls" class="carousel slide bs-slider box-slider" data-ride="carousel" data-pause="hover" data-interval="false" >
 		<!-- Indicators -->
@@ -64,7 +75,7 @@
 				</div><!-- end section -->
 			</div>
 			<div class="carousel-item">
-				<div id="home" class="first-section" style="background-image:url('images/slider-03.jpg');">
+				<div id="home" class="first-section" style="background-image:url('/images/slider-03.jpg');">
 					<div class="dtab">
 						<div class="container">
 							<div class="row">

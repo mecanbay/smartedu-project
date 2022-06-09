@@ -30,7 +30,21 @@
 											<% } %>
 					</h1>
 				</div>
+			
+			
 			</div>
+
+			<% if(flashMessages.success) {%>
+				<div class="container mt-5" >
+					<div class="alert alert-success"><%= flashMessages.success %> </div>
+				</div>
+			<% } else if(flashMessages.fail) {%>
+				<div class="container mt-5" >
+					<div class="alert alert-danger"><%= flashMessages.fail %> </div>
+				</div>
+			<% } %>   
+				
+	
 
 			<% if(user.role=="student" ){ %>
 				<div id="overviews" class="section wb">

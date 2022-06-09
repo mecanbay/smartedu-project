@@ -9,12 +9,11 @@ exports.createCourse = async (req, res) => {
     req.body["user"] = req.session.userID;
     const course = await Course.create(req.body);
 
+    req.flash("success", "NGINX CONFIGRATION");
     res.status(201).redirect("/courses");
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error,
-    });
+    req.flash("fail", error);
+    res.status(400).redirect("/courses");
   }
 };
 
@@ -32,7 +31,7 @@ exports.viewCourses = async (req, res) => {
 
     if (query) {
       filter = { name: query };
-      xss = {query : req.query.search}
+      xss = { query: req.query.search };
     }
 
     if (!query && !categorySlug) {
@@ -57,7 +56,7 @@ exports.viewCourses = async (req, res) => {
       courses,
       categories,
       page_name: "courses",
-      xss
+      xss,
     });
   } catch (error) {
     res.status(500).json({
@@ -100,6 +99,7 @@ exports.enrollCourse = async (req, res) => {
     const user = await User.findById(req.session.userID);
     await user.courses.push({ _id: course._id });
     await user.save();
+    req.flash("success", "Your course enrolled successfuly.");
     res.status(200).redirect("/user/dashboard");
   } catch (error) {
     res.status(400).json({
@@ -114,7 +114,7 @@ exports.releaseCourse = async (req, res) => {
     const user = await User.findById(req.session.userID);
     await user.courses.pull({ _id: req.body.course_id });
     await user.save();
-
+    req.flash("success", "Your course released successfuly.");
     res.status(200).redirect("/user/dashboard");
   } catch (error) {
     res.send(400).json({

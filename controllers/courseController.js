@@ -21,17 +21,34 @@ exports.createCourse = async (req, res) => {
 exports.viewCourses = async (req, res) => {
   try {
     let filter = {};
-    if (req.query.categories) {
+    let xss = {};
+    const categorySlug = req.query.categories;
+    const query = req.query.search;
+
+    if (categorySlug) {
       const category = await Category.findOne({ slug: req.query.categories });
       filter = { category: category._id };
     }
 
+    if (query) {
+      filter = { name: query };
+      xss = {query : req.query.search}
+    }
+
+    if (!query && !categorySlug) {
+      (filter.name = ""), (filter.category = null);
+    }
     // const categorySlug = req.query.categories;
 
     // if(categorySlug){
     //   const category = Category.findOne({slug : categorySlug});
     // }
-    const courses = await Course.find(filter)
+    const courses = await Course.find({
+      $or: [
+        { name: { $regex: ".*" + filter.name + ".*", $options: "i" } },
+        { category: filter.category },
+      ],
+    })
       .sort("-createdAt")
       .populate("user");
     const categories = await Category.find();
@@ -40,6 +57,7 @@ exports.viewCourses = async (req, res) => {
       courses,
       categories,
       page_name: "courses",
+      xss
     });
   } catch (error) {
     res.status(500).json({
@@ -51,12 +69,11 @@ exports.viewCourses = async (req, res) => {
 
 exports.viewCourse = async (req, res) => {
   try {
+    const user = await User.findById(req.session.userID);
     const course = await Course.findOne({ slug: req.params.slug }).populate(
       "user"
     );
     const categories = await Category.find();
-    const user = await User.findById(req.session.userID).populate('courses');
-
 
     // res.status(200).json({
     //   status : "success",
@@ -67,7 +84,7 @@ exports.viewCourse = async (req, res) => {
       course,
       categories,
       page_name: "courses",
-      user
+      user,
     });
   } catch (error) {
     res.status(500).json({
@@ -86,6 +103,21 @@ exports.enrollCourse = async (req, res) => {
     res.status(200).redirect("/user/dashboard");
   } catch (error) {
     res.status(400).json({
+      status: "fail",
+      error,
+    });
+  }
+};
+
+exports.releaseCourse = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userID);
+    await user.courses.pull({ _id: req.body.course_id });
+    await user.save();
+
+    res.status(200).redirect("/user/dashboard");
+  } catch (error) {
+    res.send(400).json({
       status: "fail",
       error,
     });

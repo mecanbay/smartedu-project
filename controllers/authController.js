@@ -6,10 +6,7 @@ const Category = require("../models/Category");
 exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).redirect('/',{
-      status: "success",
-      user,
-    });
+    res.status(201).redirect("/");
   } catch (error) {
     res.status(400).json({
       status: "fail",
@@ -24,10 +21,8 @@ exports.loginUser = (req, res) => {
     User.findOne({ username }, (err, user) => {
       if (user) {
         bcrypt.compare(password, user.password, (err, same) => {
-          if (same) {
             req.session.userID = user._id;
             res.redirect("/user/dashboard")
-          }
         });
       }
     });

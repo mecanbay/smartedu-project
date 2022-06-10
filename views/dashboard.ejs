@@ -304,8 +304,11 @@
 											<div class="col-lg-12 blog-post-single">
 												<div class="blog-author">
 													<div class="author-bio">
-														<h3 class="author_name"><a href="#"> Courses Enrolled by:
-																user.name </a></h3>
+														<% if(user.name !="" && user.surname !="" ) {%>
+															<h3 class="author_name"><a href="#"> Courses Enrolled by: <%= user.name+" "+user.surname %></a></h3>
+														<% } else { %>
+															<h3 class="author_name"><a href="#"> Courses Enrolled by: <%= user.username %></a></h3>
+														<% } %>
 
 													</div>
 												</div>
@@ -319,21 +322,25 @@
 												<thead>
 													<tr>
 														<th scope="col">ID#</th>
+														<th scope="col">Username</th>
 														<th scope="col">Email</th>
 														<th scope="col">Role</th>
 														<th scope="col">Delete</th>
 													</tr>
 												</thead>
 												<tbody>
-
+													<% for (let i = 0; i < users.length ;i++) {%> 
 													<tr>
-														<th scope="row">users[i]._id</th>
-														<td>users[i].email </td>
-														<td>users[i].role</td>
-														<td><a href="/users/" onclick="return confirm('ARE YOU SURE')"
+														<th scope="row"><%= users[i]._id %> </th>
+														<td><%= users[i].username %> </td>
+
+														<td><%= users[i].email %> </td>
+														<td><%= users[i].role %></td>
+														<td><a href="/user/<%= users[i]._id %>?_method=DELETE" onclick="return confirm('ARE YOU SURE')"
 																class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a>
 														</td>
 													</tr>
+													<% } %> 
 
 												</tbody>
 											</table>
@@ -343,6 +350,7 @@
 											<h2>Categories</h2>
 											<table class="table">
 												<thead>
+													
 													<tr>
 														<th scope="col">ID#</th>
 														<th scope="col">Name</th>
@@ -351,19 +359,22 @@
 													</tr>
 												</thead>
 												<tbody>
-
+													<% for (let i = 0; i<categories.length; i++) {%> 
 													<tr>
-														<th scope="row">categories[i]._id </th>
-														<td>categories[i].name </td>
+														
+														<th scope="row"><%= categories[i]._id  %> </th>
+														<td><%= categories[i].name %> </td>
 														<td><button class="btn btn-lg btn-warning rounded-0 text-white"
 																href="#" data-toggle="modal"
-																data-target="#addCategory"><span>
+																data-target="#addCategory<%= categories[i]._id %> "><span>
 																	ADD</span></button></td>
-														<td><a href="/categories/"
+														<td><a href="/categories/<%= categories[i]._id %>?_method=DELETE"
 																onclick="return confirm('ARE YOU SURE')"
 																class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a>
 														</td>
+														
 													</tr>
+													<% } %> 
 
 												</tbody>
 											</table>

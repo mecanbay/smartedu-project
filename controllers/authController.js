@@ -57,6 +57,7 @@ exports.logoutUser = (req, res) => {
 };
 
 exports.viewDashboardPage = async (req, res) => {
+  const users = await User.find();
   const user = await User.findById(req.session.userID).populate("courses");
   const categories = await Category.find();
   const courses = await Course.find({ user: req.session.userID }).sort(
@@ -67,5 +68,21 @@ exports.viewDashboardPage = async (req, res) => {
     user,
     categories,
     courses,
+    users
   });
 };
+
+
+exports.deleteUser = async (req,res) => {
+
+  try{
+    await User.findByIdAndDelete(req.params.userId);
+    await Course.deleteMany({user : req.params.userId});
+    req.flash("success", "User and Courses deleted");
+    res.status(200).redirect("/user/dashboard")
+  }catch (error){
+    req.flash("fail", "User and Courses not deleted");
+    res.status(200).redirect("/user/dashboard")
+  }
+
+}

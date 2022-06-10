@@ -8,6 +8,7 @@ const loginValidation = require("../middlewares/validation/loginValidation");
 router.route("/register").post(registerValidation, authController.createUser);
 router.route("/login").post(loginValidation,authController.loginUser);
 router.route("/logout").get(authController.logoutUser);
+router.route("/:userId").delete(authController.deleteUser);
 router
   .route("/dashboard")
   .get(authMiddleware, authController.viewDashboardPage);

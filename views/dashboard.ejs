@@ -152,7 +152,7 @@
 																data-toggle="modal"
 																data-target="#updateCourse"><span>UPDATE</span></button>
 														</li>
-														<li style="float: right;"><a href="/courses/"
+														<li style="float: right;"><a href="/courses/<%= courses[i].slug %>?_method=DELETE""
 																onclick="return confirm('ARE YOU SURE')"
 																class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a>
 														</li>

@@ -123,3 +123,14 @@ exports.releaseCourse = async (req, res) => {
     });
   }
 };
+
+exports.deleteCourse = async (req, res) => {
+  try {
+    await Course.findOneAndRemove({ slug: req.params.slug });
+    req.flash("success", "Your Course deleted successfuly");
+    res.status(201).redirect("/user/dashboard");
+  } catch (error) {
+    req.flash("fail", "Failed");
+    res.status(400).redirect("/user/dashboard");
+  }
+};

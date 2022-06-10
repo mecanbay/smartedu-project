@@ -134,3 +134,18 @@ exports.deleteCourse = async (req, res) => {
     res.status(400).redirect("/user/dashboard");
   }
 };
+
+exports.updateCourse = async (req, res) => {
+  try {
+    const course = await Course.findOne({ slug: req.params.slug });
+    course.name = req.body.name;
+    course.description = req.body.description;
+    course.category = req.body.category;
+    await course.save();
+    req.flash("success", "Your Course updated successfuly");
+    res.status(201).redirect("/user/dashboard");
+  } catch (error) {
+    req.flash("fail", "Failed");
+    res.status(400).redirect("/user/dashboard");
+  }
+};

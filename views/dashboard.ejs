@@ -150,7 +150,7 @@
 														<li style="float: left;"><button
 																class="btn btn-primary rounded-0 text-white"
 																data-toggle="modal"
-																data-target="#updateCourse"><span>UPDATE</span></button>
+																data-target="#updateCourse<%= courses[i]._id %> "><span>UPDATE</span></button>
 														</li>
 														<li style="float: right;"><a href="/courses/<%= courses[i].slug %>?_method=DELETE""
 																onclick="return confirm('ARE YOU SURE')"
@@ -161,9 +161,7 @@
 											</div>
 										</div>
 									</div><!-- end col -->
-									<% } %> 
-									<!-- UPDATE Modal -->
-									<div class="modal fade" id="updateCourse" tabindex="-1" role="dialog"
+									<div class="modal fade" id="updateCourse<%= courses[i]._id %>" tabindex="-1" role="dialog"
 										aria-labelledby="myModalLabel">
 										<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 											<div class="modal-content">
@@ -172,20 +170,14 @@
 													<div class="tab-content">
 														<div class="tab-pane active" id="Login">
 															<form method="POST"
-																action="/courses/ courses[i].slug %>?_method=PUT"
+																action="/courses/<%=courses[i].slug%>?_method=PUT"
 																class="form-horizontal">
 																<div class="form-group">
 																	<div class="col-sm-12">
 																		<input type="text" name="name"
-																			value="= courses[i].name %>"
+																			value="<%= courses[i].name %>"
 																			class="form-control"
 																			placeholder="Course Name">
-																	</div>
-																</div>
-																<div class="form-group">
-																	<div class="col-sm-12">
-																		<input type="hidden" name="role"
-																			class="form-control" value="= user.role %>">
 																	</div>
 																</div>
 
@@ -194,16 +186,26 @@
 																		<textarea rows="8" name="description"
 																			class="form-control"
 																			placeholder="Course Description"
-																			required>= courses[i].description %></textarea>
+																			required> <%= courses[i].description %></textarea>
 																	</div>
 																</div>
+																<h1></h1>
 																<div class="form-group">
 																	<div class="col-sm-12">
+																		
 																		<select class="form-control" name="category">
+																			<% for (let c = 0; c < categories.length; c++) {%>
+					
+																				<% if(JSON.stringify(categories[c]._id) == JSON.stringify(courses[i].category)) {%> 
+																				<option value="<%= categories[c]._id %>" selected><%= categories[c].name %></option>
+																				<% } else {%>
+																				<option value="<%= categories[c]._id %>"><%= categories[c].name %></option>
 
-																			<option value=" categories[i]._id ">
-																				categories[i].name</option>
+																				<% } %>  
+																			<% } %>  
 
+
+																			
 																		</select>
 																	</div>
 																</div>
@@ -227,6 +229,9 @@
 											</div>
 										</div>
 									</div>
+									<% } %> 
+									<!-- UPDATE Modal -->
+									
 
 
 
@@ -412,6 +417,7 @@
 
 
 									<%- include('partials/_footer'); %>
+	
 
 	</body>
 
